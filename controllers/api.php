@@ -27,5 +27,29 @@
 			}
 		}
 
+		/*	--------------------------------------------------- *\
+				[function] getTowns()
+		
+				* Returns the towns *
+		
+				Return: json
+		\*	--------------------------------------------------- */
+		function getTowns(){
+			$towns = Controller::staticLoadModel("Towns");
+			$users = Controller::staticLoadModel("Users");
+
+			try {
+				$d = $towns->getTowns();
+				foreach ($d as $key => $town) {
+					$usrs = $users->getUsersFromTown($town['id']);
+					$d[$key]['users'] = $usrs;
+				}
+				mta::doReturn(array("success" => "ok", "data" => $d));
+			} catch (Exception $e) {
+				mta::doReturn(array("error" => $e->getMessage()));
+			}
+
+		}
+
 	}
 ?>

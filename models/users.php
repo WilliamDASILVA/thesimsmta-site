@@ -1,6 +1,20 @@
 <?php
 	/*	--------------------------------------------------- *\
 			Users - Model
+				Table:
+					- id
+					- username
+					- email
+					- password
+					- posX
+					- posY
+					- posZ
+					- townID
+					- ip
+					- serial
+					- register_date
+					- active
+					- banned
 	\*	--------------------------------------------------- */
 	class Users extends Model{
 		public $table = "users";
@@ -30,8 +44,22 @@
 			}
 		}
 
-		function test(){
-
+		/*	--------------------------------------------------- *\
+				[function] getUsersFromTown(int townID)
+		
+				* Returns all the users from a town *
+		
+				Return: data, exception
+		\*	--------------------------------------------------- */
+		function getUsersFromTown($townID = null){
+			if(isset($townID)){
+				$d = $this->find(array("conditions" => "townID = '$townID'", "fields" => "id"));
+				return $d;
+			}
+			else{
+				throw new Exception("Missing arguments");
+				
+			}
 		}
 	}
 ?>
