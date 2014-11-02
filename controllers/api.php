@@ -15,8 +15,11 @@
 			$inputs = mta::getInput();
 			if(isset($inputs[1]) && !empty($inputs[1]) && isset($inputs[2]) && !empty($inputs[2])){
 				$users = Controller::staticLoadModel("Users");
+				$stats = Controller::staticLoadModel("Statistics");
 				try {
 					$d = $users->getUser($inputs[1], $inputs[2]);
+					$sts = $stats->getUserStatistics($d['id']);
+					$d['stats'] = $sts;
 					mta::doReturn(array("success" => "ok", "data" => $d), $inputs[0]);
 				} catch (Exception $e) {
 					mta::doReturn(array("error" => $e->getMessage()), $inputs[0]);
@@ -50,6 +53,7 @@
 			}
 
 		}
+
 
 	}
 ?>
